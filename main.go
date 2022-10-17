@@ -8,9 +8,9 @@ import (
 
 // Grammar:
 // expr ::= summand | summand ("+"|"-") expr
-// summand ::= power | power ("*"|"/") summand
-// power ::= factor | factor ("^") power
-// factor ::= number | "(" expr ")"
+// summand ::= factor | factor ("*"|"/") summand
+// factor ::= power | power ("^") factor
+// power ::= (+|-) (number | "(" expr ")")
 
 func eval(in ...string) ([]string, int) { return expr(in) }
 
@@ -35,35 +35,35 @@ var mulOps = map[string]func(int, int) int{
 	"/": func(a, b int) int { return a / b },
 }
 
-// summand ::= power | power ("*"|"/") summand
+// summand ::= factor | factor ("*"|"/") summand
 func summand(in []string) ([]string, int) {
-	in, a := power(in)
+	in, a := factor(in)
 	for {
 		if len(in) == 0 || mulOps[in[0]] == nil {
 			return in, a
 		}
 		op := mulOps[in[0]]
 		var b int
-		in, b = power(in[1:])
+		in, b = factor(in[1:])
 		a = op(a, b)
 	}
 }
 
-// power ::= factor | factor ("^") power
-func power(in []string) ([]string, int) {
-	in, a := factor(in)
+// factor ::= power | power ("^") factor
+func factor(in []string) ([]string, int) {
+	in, a := power(in)
 	for {
 		if len(in) == 0 || in[0] != "^" {
 			return in, a
 		}
 		var b int
-		in, b = factor(in[1:])
+		in, b = power(in[1:])
 		a = int(math.Pow(float64(a), float64(b)))
 	}
 }
 
-// factor ::= number | "(" expr ")"
-func factor(in []string) ([]string, int) {
+// power ::= number | "(" expr ")"
+func power(in []string) ([]string, int) {
 	if in[0] == "(" {
 		in, x := expr(in[1:])
 		if len(in) == 0 || in[0] != ")" {
@@ -84,5 +84,6 @@ func main() {
 	fmt.Println(eval("(", "2", "+", "2", ")", "*", "2")) // 8
 	fmt.Println(eval("10", "/", "10", "*", "5"))         // 5
 	fmt.Println(eval("2", "+", "2", "^", "2"))           // 6
+	fmt.Println(eval("(", "2", "+", "2", ")", "^", "2")) // 16
 
 }

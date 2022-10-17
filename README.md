@@ -57,14 +57,15 @@ fmt.Println(eval("(120+2*2+1)/25*10*2+100+34"))
 
 ### Tasks
 
+> **Info**
+> Please solve the tasks using the `string` evaluation version (from Section #2), not the `[]string` one.
+
 You have to implement the following three features:
 
 1. Power `a^b` e.g. `2^10` should return `1024`
 2. Factorial `a!` e.g. `4!` is `24`.
 3. Unary `+`/`-` for expressions like `-2*5`, `5*-2`, `-(2+2)*2`, etc.
 
-> **Information**
-> Please solve the tasks using the `string` evaluation version (from Section #2), not the `[]string` one.
 
 > **Information**
 > Feel free to join all of the features in a single program. You don't have to implement three different ones!

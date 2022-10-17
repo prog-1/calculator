@@ -40,7 +40,7 @@ fmt.Println(eval("10", "/", "10", "*", "5"))
 
 ## Section #2: Simple string parsing
 
-In this sectcion we represeting the user input as a string. We also assume the input is correct.
+In this section we represent the user input as a string. We also assume the input is correct.
 
 https://go.dev/play/p/4NnjIHyIqLr
 

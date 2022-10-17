@@ -22,6 +22,9 @@ var addOps = map[string]func(int, int) int{
 
 // expr ::= summand | summand ("+"|"-") expr
 func expr(in []string) ([]string, int) {
+	if len(in) == 0 {
+		return nil, 0
+	}
 	in, a := summand(in)
 	if len(in) == 0 || addOps[in[0]] == nil {
 		return in, a
@@ -90,16 +93,14 @@ func factorial(in []string) ([]string, int) {
 	if len(in) == 0 || in[0] != "!" {
 		return in, a
 	}
-	return in[1:], int(fact(uint(a)))
-}
 
-// Returns factorial of a
-func fact(a uint) uint {
-	var result uint
-	for i := uint(0); i <= a; i++ {
-		result += i
+	// Calculating factorial:
+	result := 1
+	for i := 1; i <= a; i++ {
+		result *= i
 	}
-	return result
+
+	return in[1:], result
 }
 
 func number(in []string) ([]string, int) {
@@ -108,16 +109,5 @@ func number(in []string) ([]string, int) {
 }
 
 func main() {
-	fmt.Println(eval("2", "+", "2", "*", "2"))                          // 6
-	fmt.Println(eval("(", "2", "+", "2", ")", "*", "2"))                // 8
-	fmt.Println(eval("10", "/", "10", "*", "5"))                        // 5
-	fmt.Println(eval("2", "+", "2", "^", "2"))                          // 6
-	fmt.Println(eval("(", "2", "+", "2", ")", "^", "2"))                // 16
-	fmt.Println(eval("-", "2"))                                         // -2
-	fmt.Println(eval("2", "+", "(", "-", "2", ")"))                     // 0
-	fmt.Println(eval("2", "+", "(", "-", "(", "-", "2", ")", ")"))      // 4
-	fmt.Println(eval("2", "+", "(", "+", "(", "-", "2", ")", ")"))      // 0
-	fmt.Println(fact(3))                                                // 1 + 2 + 3 = 6
-	fmt.Println(eval("3", "!"))                                         // 6
-	fmt.Println(eval("2", "+", "(", "+", "(", "-", "3", "!", ")", ")")) // -4
+	fmt.Println(eval("3", "!")) // 6
 }

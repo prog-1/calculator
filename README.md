@@ -53,6 +53,9 @@ fmt.Println(eval("(120+2*2+1)/25*10*2+100+34"))
 
 ### Tasks
 
+> **Note**
+> Please solve the tasks using the `string` evaluation version (from Section #2), not the `[]string` one.
+
 You have to implement the following three features:
 
 1. Power `a^b` e.g. `2^10` should return `1024`

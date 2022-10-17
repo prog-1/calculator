@@ -19,12 +19,19 @@ https://go.dev/play/p/4NnjIHyIqLr
 
 ## Exercises
 
-You have to implement the following three features:
-1. Power (a^b) 2^10=1024
-2. Unary +/-
-3. Factorial (a!) 4!=24
+### Tasks
 
-Grammar for (1) and (2):
+You have to implement the following three features:
+
+1. Power `a^b` e.g. `2^10` should return `1024`
+2. Factorial (a!) 4!=24
+3. Unary `+`/`-` for expressions like `-2*5`, `5*-2`, `-(2+2)*2`, etc.
+
+   IMPORTANT: Unary `-` priority is lower than power or factorial. It means that `-2^4` is `-(2^4)` and `-3!` is `-(3!)`
+
+NOTE: Feel free to join all of the features in a single program. You don't have to implement three different ones!
+
+### Grammar
 
 ```
 // Rule order:

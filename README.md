@@ -4,7 +4,8 @@
 
 In this section the user input is represented as a slice of strings, where each iteam is a token. Because of that there is no need to parse anything.
 
-We also assume input is always valid, so no extensive error checking is made.
+> **Info**
+> We assume input is always valid, so no extensive error checking is made.
 
 1. Evaluating numbers.
 
@@ -40,7 +41,10 @@ fmt.Println(eval("10", "/", "10", "*", "5"))
 
 ## Section #2: Simple string parsing
 
-In this section we represent the user input as a string. We also assume the input is correct.
+In this section we represent the user input as a string.
+
+> **Info**
+> We also assume the input is correct. No extensive error checking.
 
 https://go.dev/play/p/4NnjIHyIqLr
 
@@ -53,19 +57,19 @@ fmt.Println(eval("(120+2*2+1)/25*10*2+100+34"))
 
 ### Tasks
 
-> **Info**
-> Please solve the tasks using the `string` evaluation version (from Section #2), not the `[]string` one.
-
-> **Note**
-> Feel free to join all of the features in a single program. You don't have to implement three different ones!
-
 You have to implement the following three features:
 
 1. Power `a^b` e.g. `2^10` should return `1024`
 2. Factorial `a!` e.g. `4!` is `24`.
 3. Unary `+`/`-` for expressions like `-2*5`, `5*-2`, `-(2+2)*2`, etc.
 
-> **Warning**
+> **Info**
+> Please solve the tasks using the `string` evaluation version (from Section #2), not the `[]string` one.
+
+> **Info**
+> Feel free to join all of the features in a single program. You don't have to implement three different ones!
+
+> **Info**
 > Unary `-` priority is lower than power or factorial. It means that `-2^4` is `-(2^4)` and `-3!` is `-(3!)`
 
 ### Grammar

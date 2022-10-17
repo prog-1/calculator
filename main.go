@@ -10,7 +10,8 @@ import (
 // expr ::= summand | summand ("+"|"-") expr
 // summand ::= factor | factor ("*"|"/") summand
 // factor ::= power | power ("^") factor
-// power ::= (+|-) number | "(" expr ")"
+// power ::= (+|-) factorial | "(" expr ")"
+// factorial ::= number | number ("!")
 
 func eval(in ...string) ([]string, int) { return expr(in) }
 
@@ -62,17 +63,16 @@ func factor(in []string) ([]string, int) {
 	}
 }
 
-var prefixUnaryOps = map[string]func(int) int{
+var unaryOps = map[string]func(int) int{
 	"+": func(a int) int { return a },
 	"-": func(a int) int { return -a },
 }
 
-// power ::= (+|-) number | "(" expr ")"
+// power ::= (+|-) factorial | "(" expr ")"
 func power(in []string) ([]string, int) {
-	if prefixUnaryOps[in[0]] != nil { // Have unary operator
-		op := prefixUnaryOps[in[0]]
-		var a int
-		in, a = power(in[1:])
+	if unaryOps[in[0]] != nil { // Have unary operator
+		op := unaryOps[in[0]]
+		in, a := power(in[1:])
 		return in, op(a)
 	}
 	if in[0] == "(" {
@@ -82,7 +82,24 @@ func power(in []string) ([]string, int) {
 		}
 		return in[1:], x
 	}
-	return number(in)
+	return factorial(in)
+}
+
+func factorial(in []string) ([]string, int) {
+	in, a := number(in)
+	if len(in) == 0 || in[0] != "!" {
+		return in, a
+	}
+	return in[1:], int(fact(uint(a)))
+}
+
+// Returns factorial of a
+func fact(a uint) uint {
+	var result uint
+	for i := uint(0); i <= a; i++ {
+		result += i
+	}
+	return result
 }
 
 func number(in []string) ([]string, int) {
@@ -91,13 +108,16 @@ func number(in []string) ([]string, int) {
 }
 
 func main() {
-	fmt.Println(eval("2", "+", "2", "*", "2"))                     // 6
-	fmt.Println(eval("(", "2", "+", "2", ")", "*", "2"))           // 8
-	fmt.Println(eval("10", "/", "10", "*", "5"))                   // 5
-	fmt.Println(eval("2", "+", "2", "^", "2"))                     // 6
-	fmt.Println(eval("(", "2", "+", "2", ")", "^", "2"))           // 16
-	fmt.Println(eval("-", "2"))                                    // -2
-	fmt.Println(eval("2", "+", "(", "-", "2", ")"))                // 0
-	fmt.Println(eval("2", "+", "(", "-", "(", "-", "2", ")", ")")) // 4
-	fmt.Println(eval("2", "+", "(", "+", "(", "-", "2", ")", ")")) // 0
+	fmt.Println(eval("2", "+", "2", "*", "2"))                          // 6
+	fmt.Println(eval("(", "2", "+", "2", ")", "*", "2"))                // 8
+	fmt.Println(eval("10", "/", "10", "*", "5"))                        // 5
+	fmt.Println(eval("2", "+", "2", "^", "2"))                          // 6
+	fmt.Println(eval("(", "2", "+", "2", ")", "^", "2"))                // 16
+	fmt.Println(eval("-", "2"))                                         // -2
+	fmt.Println(eval("2", "+", "(", "-", "2", ")"))                     // 0
+	fmt.Println(eval("2", "+", "(", "-", "(", "-", "2", ")", ")"))      // 4
+	fmt.Println(eval("2", "+", "(", "+", "(", "-", "2", ")", ")"))      // 0
+	fmt.Println(fact(3))                                                // 1 + 2 + 3 = 6
+	fmt.Println(eval("3", "!"))                                         // 6
+	fmt.Println(eval("2", "+", "(", "+", "(", "-", "3", "!", ")", ")")) // -4
 }

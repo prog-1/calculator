@@ -10,7 +10,7 @@ import (
 // expr ::= summand | summand ("+"|"-") expr
 // summand ::= factor | factor ("*"|"/") summand
 // factor ::= power | power ("^") factor
-// power ::= (+|-) (number | "(" expr ")")
+// power ::= (+|-) number | "(" expr ")"
 
 func eval(in ...string) ([]string, int) { return expr(in) }
 
@@ -62,8 +62,19 @@ func factor(in []string) ([]string, int) {
 	}
 }
 
-// power ::= number | "(" expr ")"
+var prefixUnaryOps = map[string]func(int) int{
+	"+": func(a int) int { return a },
+	"-": func(a int) int { return -a },
+}
+
+// power ::= (+|-) number | "(" expr ")"
 func power(in []string) ([]string, int) {
+	if prefixUnaryOps[in[0]] != nil { // Have unary operator
+		op := prefixUnaryOps[in[0]]
+		var a int
+		in, a = power(in[1:])
+		return in, op(a)
+	}
 	if in[0] == "(" {
 		in, x := expr(in[1:])
 		if len(in) == 0 || in[0] != ")" {
@@ -80,10 +91,13 @@ func number(in []string) ([]string, int) {
 }
 
 func main() {
-	fmt.Println(eval("2", "+", "2", "*", "2"))           // 6
-	fmt.Println(eval("(", "2", "+", "2", ")", "*", "2")) // 8
-	fmt.Println(eval("10", "/", "10", "*", "5"))         // 5
-	fmt.Println(eval("2", "+", "2", "^", "2"))           // 6
-	fmt.Println(eval("(", "2", "+", "2", ")", "^", "2")) // 16
-
+	fmt.Println(eval("2", "+", "2", "*", "2"))                     // 6
+	fmt.Println(eval("(", "2", "+", "2", ")", "*", "2"))           // 8
+	fmt.Println(eval("10", "/", "10", "*", "5"))                   // 5
+	fmt.Println(eval("2", "+", "2", "^", "2"))                     // 6
+	fmt.Println(eval("(", "2", "+", "2", ")", "^", "2"))           // 16
+	fmt.Println(eval("-", "2"))                                    // -2
+	fmt.Println(eval("2", "+", "(", "-", "2", ")"))                // 0
+	fmt.Println(eval("2", "+", "(", "-", "(", "-", "2", ")", ")")) // 4
+	fmt.Println(eval("2", "+", "(", "+", "(", "-", "2", ")", ")")) // 0
 }

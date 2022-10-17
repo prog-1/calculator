@@ -57,8 +57,11 @@ fmt.Println(eval("(120+2*2+1)/25*10*2+100+34"))
 
 ### Tasks
 
-> **Info**
+> **Note**
 > Please solve the tasks using the `string` evaluation version (from Section #2), not the `[]string` one.
+
+> **Note**
+> Feel free to join all of the features in a single program. You don't have to implement three different ones!
 
 You have to implement the following three features:
 
@@ -66,11 +69,7 @@ You have to implement the following three features:
 2. Factorial `a!` e.g. `4!` is `24`.
 3. Unary `+`/`-` for expressions like `-2*5`, `5*-2`, `-(2+2)*2`, etc.
 
-
-> **Information**
-> Feel free to join all of the features in a single program. You don't have to implement three different ones!
-
-> **Information**
+> **Note**
 > Unary `-` priority is lower than power or factorial. It means that `-2^4` is `-(2^4)` and `-3!` is `-(3!)`
 
 ### Grammar

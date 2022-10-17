@@ -59,7 +59,7 @@ You have to implement the following three features:
 2. Factorial `a!` e.g. `4!` is `24`.
 3. Unary `+`/`-` for expressions like `-2*5`, `5*-2`, `-(2+2)*2`, etc.
 
-   IMPORTANT: Unary `-` priority is lower than power or factorial. It means that `-2^4` is `-(2^4)` and `-3!` is `-(3!)`
+IMPORTANT: Unary `-` priority is lower than power or factorial. It means that `-2^4` is `-(2^4)` and `-3!` is `-(3!)`
 
 NOTE: Feel free to join all of the features in a single program. You don't have to implement three different ones!
 

@@ -1,21 +1,53 @@
 # Calculator
 
-## Section #1: Grammar, simple implementation
+## Section #1: Grammar basics. Simple infix calculator.
 
-### Step #1: grammar
-https://go.dev/play/p/gIY8kXknAUz
-### Step #2: summator
-https://go.dev/play/p/V-OUJFoKFQY
-### Step #3: multiplier
-https://go.dev/play/p/gjyvFfySc60
-### Step #4: parentheses
-https://go.dev/play/p/sJ1kniqZuS4
-### Step #5: left/right priority, removing recursion
-https://go.dev/play/p/FyJXlyhJxpf
+In this section the user input is represented as a slice of strings, where each iteam is a token. Because of that there is no need to parse anything.
+
+We also assume input is always valid, so no extensive error checking is made.
+
+1. Evaluating numbers.
+
+   https://go.dev/play/p/gIY8kXknAUz
+   
+2. Evaluating additions.
+
+   https://go.dev/play/p/V-OUJFoKFQY
+
+3. Operator priorities. Evaluating multiplication.
+
+   https://go.dev/play/p/gjyvFfySc60
+
+4. Evaluating parentheses.
+
+   https://go.dev/play/p/sJ1kniqZuS4
+
+5. Left/right order. Non-recursive left order implementation.
+
+   https://go.dev/play/p/FyJXlyhJxpf
+
+Now we can evaluate simple expressions e.g.
+
+```go
+fmt.Println(eval("2", "+", "2", "*", "2"))
+fmt.Println(eval("(", "2", "+", "2", ")", "*", "2"))
+fmt.Println(eval("10", "/", "10", "*", "5"))
+// Output:
+// [] 6
+// [] 8
+// [] 5
+```
 
 ## Section #2: Simple string parsing
 
+In this sectcion we represeting the user input as a string. We also assume the input is correct.
+
 https://go.dev/play/p/4NnjIHyIqLr
+
+```go
+fmt.Println(eval("(120+2*2+1)/25*10*2+100+34"))
+// Output: 234
+```
 
 ## Exercises
 

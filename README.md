@@ -4,7 +4,7 @@
 
 In this section the user input is represented as a slice of strings, where each iteam is a token. Because of that there is no need to parse anything.
 
-> **Info**
+> **Note**
 > We assume input is always valid, so no extensive error checking is made.
 
 1. Evaluating numbers.

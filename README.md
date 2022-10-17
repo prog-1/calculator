@@ -28,14 +28,17 @@ Grammar for (1) and (2):
 
 ```
 // Rule order:
-// [*] any
+// [-] no order
 // [L] left
 // [R] right
+// [*] left or right
 
 // expr      [*] ::= summand | summand ("+"|"-") expr
-// summand   [L] ::= unary | unary ("*"|"/") summand
-// unary     [*] ::= ("+"|"-") factor | factor
-// factor    [R] ::= power | power "^" factor
-// power     [R] ::= factorial | factorial "!"
-// factorial [R] ::= "(" expr ")" | number
+// summand   [L] ::= factor | factor ("*"|"/") summand
+// factor    [-] ::= ("+"|"-") unary | unary
+// unary     [R] ::= power | power "^" unary
+// power     [-] ::= factorial | factorial "!"
+// factorial [-] ::= "(" expr ")" | number
+// number    [*] ::= digit | digit number
+// digit     [-] ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 ```

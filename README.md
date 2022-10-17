@@ -27,8 +27,15 @@ You have to implement the following three features:
 Grammar for (1) and (2):
 
 ```
-// expr    ::= summand | summand ("+"|"-") expr
-// summand ::= factor | factor ("*"|"/") summand
-// factor  ::= power | power "^" factor
-// power   ::= ("-"|"+") power | "(" expr ")" | number
+// Rule order:
+// [*] any
+// [L] left
+// [R] right
+
+// expr      [*] ::= summand | summand ("+"|"-") expr
+// summand   [L] ::= unary | unary ("*"|"/") summand
+// unary     [*] ::= ("+"|"-") factor | factor
+// factor    [R] ::= power | power "^" factor
+// power     [R] ::= factorial | factorial "!"
+// factorial [R] ::= "(" expr ")" | number
 ```

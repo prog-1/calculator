@@ -68,6 +68,7 @@ You have to implement the following three features:
 1. Power `a^b` e.g. `2^10` should return `1024`
 2. Factorial `a!` e.g. `4!` is `24`.
 3. Unary `+`/`-` for expressions like `-2*5`, `5*-2`, `-(2+2)*2`, etc.
+4. Find and fix a bug. Yes, we have it!
 
 > **Note**
 > Unary `-` priority is lower than power or factorial. It means that `-2^4` is `-(2^4)` and `-3!` is `-(3!)`

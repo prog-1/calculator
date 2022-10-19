@@ -80,20 +80,20 @@ You have to implement the following three features:
 > Feel free to use any version that feels better to you.
 
 ```
-// Rule order:
-// [-] no order
-// [L] left
-// [R] right
-// [*] left or right
+Association:
+  [-] N/A
+  [L] Left
+  [R] Right
+  [*] Left or right
 
-// expr      [*] ::= summand | summand ("+"|"-") expr
-// summand   [L] ::= factor | factor ("*"|"/") summand
-// factor    [-] ::= ("+"|"-") unary | unary
-// unary     [R] ::= power | power "^" unary
-// power     [-] ::= factorial | factorial "!"
-// factorial [-] ::= "(" expr ")" | number
-// number    [*] ::= digit | digit number
-// digit     [-] ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+expr      [*] ::= summand | summand ("+"|"-") expr
+summand   [L] ::= factor | factor ("*"|"/") summand
+factor    [-] ::= ("+"|"-") unary | unary
+unary     [R] ::= power | power "^" unary
+power     [-] ::= factorial | factorial "!"
+factorial [-] ::= "(" expr ")" | number
+number    [*] ::= digit | digit number
+digit     [-] ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 ```
 
 > **Note**
@@ -101,6 +101,8 @@ You have to implement the following three features:
 > describes how to sum terms, `mul` describes how to multiple factors, etc. Functionally these two grammars are the same.
 
 ```bnf
+Corresponding associations apply!
+
 expr  ::= sum
 sum   ::= mul | mul ("+"|"-") sum
 mul   ::= unary | unary ("*"|"/") mul

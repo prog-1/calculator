@@ -55,14 +55,35 @@ func factor(in []string) ([]string, int) {
 	return power(in)
 }
 
-// power ::= number ^ number | number
+// power ::= factorial ^ factorial | factorial
 func power(in []string) ([]string, int) {
-	in, x := number(in)
+	in, x := factorial(in)
 	if len(in) == 0 || in[0] != "^" {
 		return in, x
 	}
-	in, y := number(in[1:])
+	in, y := factorial(in[1:])
 	return in, int(math.Pow(float64(x), float64(y)))
+}
+
+// factorial ::= number! | number
+func factorial(in []string) ([]string, int) {
+	in, x := number(in)
+	if len(in) == 0 || in[0] != "!" {
+		return in, x
+	}
+	return in[1:], fact(x)
+}
+
+func fact(n int) int {
+	if n < 0 {
+		panic("negative power is not supported")
+	}
+	n++
+	x := 1
+	for i := 1; i < n; i++ {
+		x *= i
+	}
+	return x
 }
 
 func number(in []string) ([]string, int) {
@@ -74,6 +95,6 @@ func main() {
 	fmt.Println(eval("2", "+", "2", "*", "2"))
 	fmt.Println(eval("(", "2", "+", "2", ")", "*", "2"))
 	fmt.Println(eval("10", "/", "10", "*", "5"))
-	fmt.Println(eval("10", "^", "10", "*", "3", "^", "2"))
-
+	fmt.Println(eval("4", "!", "*", "-10"))
+	fmt.Println(fact(4))
 }

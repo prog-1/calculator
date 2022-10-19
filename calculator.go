@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	fmt.Println(eval("5!"))
+	fmt.Println(eval("-2*5"))
 	// fmt.Println(eval("2*2+2"))
 	// fmt.Println(eval("(2+2)*2"))
 	// fmt.Println(eval("2*(2+2)"))
@@ -30,7 +30,12 @@ var powOps = map[byte]func(int, int) int{
 	'^': func(a, b int) int { return int(math.Pow(float64(a), float64(b))) },
 }
 
-//expr ::= summand | summand ("+"|"-") expr
+var unaryOps = map[byte]func(int) int{
+	'+': func(a int) int { return a },
+	'-': func(a int) int { return -a },
+}
+
+//expr ::= summand | summand ('+'|'-') expr
 func expr(in string) (string, int) {
 	in, a := summand(in)
 	if in == "" || addOps[in[0]] == nil {
@@ -41,7 +46,7 @@ func expr(in string) (string, int) {
 	return in, op(a, b)
 }
 
-//summand ::= factor | factor ("*"|"/")
+//summand ::= factor | factor ('*'|'/')
 func summand(in string) (string, int) {
 	in, a := factor(in)
 	for {
@@ -55,7 +60,7 @@ func summand(in string) (string, int) {
 	}
 }
 
-// factor ::= power | "(" expr ")"
+// factor ::= unary | '(' expr ')'
 func factor(in string) (string, int) {
 	if in[0] == '(' {
 		in, x := expr(in[1:])
@@ -64,11 +69,39 @@ func factor(in string) (string, int) {
 		}
 		return in[1:], x
 	}
-	return power(in)
+	return unary(in)
 }
 
-// power ::= factorial | factorial ("^")
+// unary ::= power | ('+'|'-') power
+func unary(in string) (string, int) {
+
+	if len(in) == 0 || unaryOps[in[0]] == nil {
+		in, a := power(in)
+		return in, a
+	}
+	op := unaryOps[in[0]]
+	var b int
+	in, b = power(in[1:])
+	return in, op(b)
+
+	// if in[0] == '+' {
+	// 	in = in[1:]
+	// 	in, n = power(in)
+	// } else if in[0] == '-' {
+	// 	in = in[1:]
+	// 	in, n = power(in)
+	// 	n = -n
+	// } else {
+	// 	in, n = power(in)
+	// }
+	// in, n = power(in)
+	// return in, n
+
+}
+
+// power ::= factorial | factorial ('^')
 func power(in string) (string, int) {
+
 	in, a := factorial(in)
 	for {
 		if len(in) == 0 || powOps[in[0]] == nil {
@@ -81,7 +114,7 @@ func power(in string) (string, int) {
 	}
 }
 
-// factorial ::= number | number ("!")
+// factorial ::= number | number ('!')
 func factorial(in string) (string, int) {
 	in, a := number(in)
 	if len(in) == 0 || in[0] != '!' {
@@ -110,7 +143,8 @@ func number(in string) (string, int) {
 
 //expr ::= summand | summand ("+"|"-") expr
 //summand ::= factor | factor ("*"|"/")
-//factor ::= power | "(" expr ")"
+//factor ::= unary | "(" expr ")"
+//unary ::= power | ('+'|'-') power
 //power ::= factorial | factorial ("^")
 //factorial ::= number | number ("!")
 //number ::= number

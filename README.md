@@ -75,6 +75,10 @@ You have to implement the following three features:
 
 ### Grammar
 
+> **Note**
+> This grammar is operator priority based. It is not very natural to read. Check another version of the grammar below.
+> Feel free to use any version that feels better to you.
+
 ```
 // Rule order:
 // [-] no order
@@ -91,3 +95,20 @@ You have to implement the following three features:
 // number    [*] ::= digit | digit number
 // digit     [-] ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 ```
+
+> **Note**
+> Alternative version of the grammar is operator focused. Rules are named differently, but they are operation centric - `sum`
+> describes how to sum terms, `mul` describes how to multiple factors, etc. Functionally these two grammars are the same.
+
+```
+expr  ::= sum
+sum   ::= mul | mul [+-] sum
+mul   ::= unary | unary [*/] mul
+unary ::= [+-] power | power
+power ::= fact | fact ^ power
+fact  ::= value | value !
+value ::= ( expr ) | num
+num   ::= digit | digit num
+digit ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+```
+

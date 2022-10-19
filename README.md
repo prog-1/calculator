@@ -103,14 +103,14 @@ digit     [-] ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 ```bnf
 Corresponding associations apply!
 
-expr  ::= sum
-sum   ::= mul | mul ("+"|"-") sum
-mul   ::= unary | unary ("*"|"/") mul
-unary ::= ("+"|"-") power | power
-power ::= fact | fact "^" power
-fact  ::= value | value "!"
-value ::= "(" expr ")" | num
-num   ::= digit | digit num
-digit ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<expr>  ::= <sum>
+<sum>   ::= <mul> | <mul> ("+" | "-") <sum>
+<mul>   ::= <unary> | <unary> ("*" | "/") <mul>
+<unary> ::= ("+" | "-") <power> | <power>
+<power> ::= <fact> | <fact> "^" <power>
+<fact>  ::= <value> | <value> "!"
+<value> ::= "(" <expr> ")" | <num>
+<num>   ::= <digit> | <digit> <num>
+<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 ```
 

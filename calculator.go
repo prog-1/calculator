@@ -7,11 +7,11 @@ import (
 )
 
 func main() {
-	fmt.Println(eval("3^2"))
-	fmt.Println(eval("2*2+2"))
-	fmt.Println(eval("(2+2)*2"))
-	fmt.Println(eval("2*(2+2)"))
-	fmt.Println(eval("(120+2*2+1)/25*10*2+100+34"))
+	fmt.Println(eval("5!"))
+	// fmt.Println(eval("2*2+2"))
+	// fmt.Println(eval("(2+2)*2"))
+	// fmt.Println(eval("2*(2+2)"))
+	// fmt.Println(eval("(120+2*2+1)/25*10*2+100^2+34^10"))
 }
 
 func eval(in string) (string, int) { return expr(in) } // in ...string - we can add unfixed amount of strings and treat this input as slice
@@ -67,18 +67,32 @@ func factor(in string) (string, int) {
 	return power(in)
 }
 
-// power ::= number | number (^)
+// power ::= factorial | factorial ("^")
 func power(in string) (string, int) {
-	in, a := number(in)
+	in, a := factorial(in)
 	for {
 		if len(in) == 0 || powOps[in[0]] == nil {
 			return in, a
 		}
 		op := powOps[in[0]]
 		var b int
-		in, b = number(in[1:])
+		in, b = factorial(in[1:])
 		a = op(a, b)
 	}
+}
+
+// factorial ::= number | number ("!")
+func factorial(in string) (string, int) {
+	in, a := number(in)
+	if len(in) == 0 || in[0] != '!' {
+		return in, a
+	}
+	in = in[1:]
+	res := 1
+	for i := a; i > 0; i-- {
+		res *= i
+	}
+	return in, res
 }
 
 //number.. just a number
@@ -93,3 +107,10 @@ func number(in string) (string, int) {
 	x, _ := strconv.Atoi(in[:n])
 	return in[n:], x
 }
+
+//expr ::= summand | summand ("+"|"-") expr
+//summand ::= factor | factor ("*"|"/")
+//factor ::= power | "(" expr ")"
+//power ::= factorial | factorial ("^")
+//factorial ::= number | number ("!")
+//number ::= number

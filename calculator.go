@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"strconv"
 )
 
 func main() {
-	fmt.Println(eval("-2*5"))
+	fmt.Println(eval("2^3"))
 	// fmt.Println(eval("2*2+2"))
 	// fmt.Println(eval("(2+2)*2"))
 	// fmt.Println(eval("2*(2+2)"))
@@ -27,7 +26,17 @@ var mulOps = map[byte]func(int, int) int{
 }
 
 var powOps = map[byte]func(int, int) int{
-	'^': func(a, b int) int { return int(math.Pow(float64(a), float64(b))) },
+	'^': func(a, b int) int {
+		if b < 0 {
+			panic("negative power")
+		}
+		i, res := 0, 1
+		for ; i < b; i++ {
+			res *= a
+		}
+		return res
+		//int(math.Pow(float64(a), float64(b)))
+	},
 }
 
 var unaryOps = map[byte]func(int) int{
@@ -46,42 +55,32 @@ func expr(in string) (string, int) {
 	return in, op(a, b)
 }
 
-//summand ::= factor | factor ('*'|'/')
+//summand ::= unary | unary ('*'|'/')
 func summand(in string) (string, int) {
-	in, a := factor(in)
+	in, a := unary(in)
 	for {
 		if len(in) == 0 || mulOps[in[0]] == nil {
 			return in, a
 		}
 		op := mulOps[in[0]]
 		var b int
-		in, b = factor(in[1:])
+		in, b = unary(in[1:])
 		a = op(a, b)
 	}
 }
 
-// factor ::= unary | '(' expr ')'
-func factor(in string) (string, int) {
-	if in[0] == '(' {
-		in, x := expr(in[1:])
-		if len(in) == 0 || in[0] != ')' {
-			panic("wanna closing parentheses")
-		}
-		return in[1:], x
-	}
-	return unary(in)
-}
+// unary ::= factor | ('+'|'-') factor
 
-// unary ::= power | ('+'|'-') power
 func unary(in string) (string, int) {
-
+	//bug is in unary position?
+	//unary should stand between summand and factor, not between factor and power/factorial!
 	if len(in) == 0 || unaryOps[in[0]] == nil {
-		in, a := power(in)
+		in, a := factor(in)
 		return in, a
 	}
 	op := unaryOps[in[0]]
 	var b int
-	in, b = power(in[1:])
+	in, b = factor(in[1:])
 	return in, op(b)
 
 	// if in[0] == '+' {
@@ -97,6 +96,18 @@ func unary(in string) (string, int) {
 	// in, n = power(in)
 	// return in, n
 
+}
+
+// factor ::= power | '(' expr ')'
+func factor(in string) (string, int) {
+	if in[0] == '(' {
+		in, x := expr(in[1:])
+		if len(in) == 0 || in[0] != ')' {
+			panic("wanna closing parentheses")
+		}
+		return in[1:], x
+	}
+	return power(in)
 }
 
 // power ::= factorial | factorial ('^')
@@ -141,10 +152,10 @@ func number(in string) (string, int) {
 	return in[n:], x
 }
 
-//expr ::= summand | summand ("+"|"-") expr
-//summand ::= factor | factor ("*"|"/")
-//factor ::= unary | "(" expr ")"
-//unary ::= power | ('+'|'-') power
-//power ::= factorial | factorial ("^")
-//factorial ::= number | number ("!")
+//expr ::= summand | summand ('+'|'-') expr
+//summand ::= unary | unary ('*'|'/')
+//unary ::= factor | ('+'|'-') factor
+//factor ::= power | '(' expr ')'
+//power ::= factorial | factorial ('^')
+//factorial ::= number | number ('!')
 //number ::= number

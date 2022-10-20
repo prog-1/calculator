@@ -17,7 +17,7 @@ func TestEval(t *testing.T) {
 		{"unary -", "-2+10*(-5)", (-52)},
 		{"unary - 2", "-(-5)", 5}, //solved by moving unary between summand and factor
 		{"unary +", "+5-(+10)", (-5)},
-		//{"flying out", "2^(2+1)", 8},
+		{"flying out", "2^(2+1)", 8}, //solved by calling expr instead of factorial after power
 		//{"empty", "", 0},
 	} {
 		t.Run(tc.name, func(t *testing.T) {

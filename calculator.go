@@ -44,7 +44,7 @@ var unaryOps = map[byte]func(int) int{
 	'-': func(a int) int { return -a },
 }
 
-//expr ::= summand | summand ('+'|'-') expr
+// expr ::= summand | summand ('+'|'-') expr
 func expr(in string) (string, int) {
 	in, a := summand(in)
 	if in == "" || addOps[in[0]] == nil {
@@ -55,7 +55,7 @@ func expr(in string) (string, int) {
 	return in, op(a, b)
 }
 
-//summand ::= unary | unary ('*'|'/')
+// summand ::= unary | unary ('*'|'/') summand
 func summand(in string) (string, int) {
 	in, a := unary(in)
 	for {
@@ -70,7 +70,6 @@ func summand(in string) (string, int) {
 }
 
 // unary ::= factor | ('+'|'-') factor
-
 func unary(in string) (string, int) {
 	//bug is in unary position?
 	//unary should stand between summand and factor, not between factor and power/factorial!
@@ -82,19 +81,6 @@ func unary(in string) (string, int) {
 	var b int
 	in, b = factor(in[1:])
 	return in, op(b)
-
-	// if in[0] == '+' {
-	// 	in = in[1:]
-	// 	in, n = power(in)
-	// } else if in[0] == '-' {
-	// 	in = in[1:]
-	// 	in, n = power(in)
-	// 	n = -n
-	// } else {
-	// 	in, n = power(in)
-	// }
-	// in, n = power(in)
-	// return in, n
 
 }
 
@@ -110,7 +96,7 @@ func factor(in string) (string, int) {
 	return power(in)
 }
 
-// power ::= factorial | factorial ('^')
+// power ::= factorial | factorial ('^') expr
 func power(in string) (string, int) {
 
 	in, a := factorial(in)
@@ -120,7 +106,7 @@ func power(in string) (string, int) {
 		}
 		op := powOps[in[0]]
 		var b int
-		in, b = factorial(in[1:])
+		in, b = expr(in[1:])
 		a = op(a, b)
 	}
 }
@@ -152,10 +138,10 @@ func number(in string) (string, int) {
 	return in[n:], x
 }
 
-//expr ::= summand | summand ('+'|'-') expr
-//summand ::= unary | unary ('*'|'/')
-//unary ::= factor | ('+'|'-') factor
-//factor ::= power | '(' expr ')'
-//power ::= factorial | factorial ('^')
-//factorial ::= number | number ('!')
-//number ::= number
+// expr ::= summand | summand ('+'|'-') expr
+// summand ::= unary | unary ('*'|'/') summand
+// unary ::= factor | ('+'|'-') factor
+// factor ::= power | '(' expr ')'
+// power ::= factorial | factorial ('^') expr
+// factorial ::= number | number ('!')
+// number ::= number

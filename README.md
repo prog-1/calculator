@@ -57,11 +57,8 @@ fmt.Println(eval("(120+2*2+1)/25*10*2+100+34"))
 
 ### Tasks
 
-> **Note**
-> Please solve the tasks using the `string` evaluation version (from Section #2), not the `[]string` one.
-
-> **Note**
-> Feel free to join all of the features in a single program. You don't have to implement three different ones!
+Please solve the tasks using the `string` evaluation version (from Section #2), not the `[]string` one.
+Feel free to join all of the features in a single program. You don't have to implement three different ones!
 
 You have to implement the following three features:
 
@@ -75,9 +72,8 @@ You have to implement the following three features:
 
 ### Grammar
 
-> **Note**
-> This grammar is operator priority based. It is not very natural to read. Check another version of the grammar below.
-> Feel free to use any version that feels better to you.
+This grammar is operator priority based. It is not very natural to read. Check another version of the grammar below.
+Feel free to use any version that feels better.
 
 ```
 Association:
@@ -96,9 +92,8 @@ number    [*] ::= digit | digit number
 digit     [-] ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 ```
 
-> **Note**
-> Alternative version of the grammar is operator focused. Rules are named differently, but they are operation centric - `sum`
-> describes how to sum terms, `mul` describes how to multiple factors, etc. Functionally these two grammars are the same.
+This alternative version of the grammar is operator focused. Rules are named differently, but they are operation centric - `sum`
+describes how to sum terms, `mul` describes how to multiple factors, etc. Functionally these two the same.
 
 ```bnf
 Corresponding associations apply!

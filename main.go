@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 )
 
@@ -68,14 +69,29 @@ func number(in string) (string, int) {
 
 // power ::= factorial | factorial "!"
 func power(in string) (string, int) {
-	in, x := factorial(in)
+	in, a := factorial(in)
 	if in == "" || in[0] != '!' {
-		return in, x
+		return in, a
 	}
-	for i := x - 1; i > 1; i-- {
-		x *= i
+	if a < 0 {
+		panic("negative number")
 	}
-	return in[1:], x
+	result := 1
+	for ; a > 0; a-- {
+		result *= a
+	}
+	return in[1:], result
+}
+func unary(in string) (string, int) {
+	in, a := power(in)
+	for {
+		if len(in) == 0 || in[0] != '^' {
+			return in, a
+		}
+		var b int
+		in, b = power(in[1:])
+		a = int(math.Pow(float64(a), float64(b)))
+	}
 }
 
 // factorial ::= "(" expr ")" | number
